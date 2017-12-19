@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">My Friends</string>
+    <string name="transition_example">My ListView</string>
+    <string name="second_activity">Second activity</string>
+    <string name="go_to_2_activity">Go to 2 activity</string>
+    <string name="anun">Anun</string>
+    <string name="anun1">Anun1</string>
+    <string name="anun2">Anun2</string>
+    <string name="phone_number">Phone number: </string>
+    <string name="name">Name: </string>
+    <string name="full_name">Full Name:</string>
+    <string name="email">Email:</string>
+    <string name="year">Year:</string>
+    <string name="_098179899">098179899</string>
+    <string name="call">Call</string>
+    <string name="save">Save</string>
+</resources>
