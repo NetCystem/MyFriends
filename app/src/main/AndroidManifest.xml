@@ -20,7 +20,8 @@
         </activity>
         <activity
             android:name=".contacts_information"
-            android:theme="@style/MyActionBar"></activity>
+            android:theme="@style/MyActionBar" />
     </application>
+
 
 </manifest>

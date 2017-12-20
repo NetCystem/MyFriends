@@ -68,12 +68,13 @@ public class MainActivity extends AppCompatActivity {
         listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                listView.setSelected(true);
                 Animation animation = new AlphaAnimation(0.3f, 1.0f);
                 animation.setDuration(800);
                 listView.startAnimation(animation);
                 count++;
                 checkedListPositions.add(position);
-                Toast.makeText(MainActivity.this, count + " Items Selected", Toast.LENGTH_SHORT).show();
+                mode.setTitle(count + " Items Selected");
             }
 
             @Override
@@ -97,12 +98,11 @@ public class MainActivity extends AppCompatActivity {
                             ) {
                         listAdapter.delete(i);
                     }
-                    Toast.makeText(MainActivity.this, count + " Items Removed", Toast.LENGTH_SHORT).show();
-                    checkedListPositions.clear();
-                    count = 0;
-                    mode.finish();
                 }
 
+                Toast.makeText(MainActivity.this, count + " Items Removed", Toast.LENGTH_SHORT).show();
+                checkedListPositions.clear();
+                count = 0;
                 mode.finish();
 
                 return true;
@@ -110,7 +110,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onDestroyActionMode(ActionMode mode) {
-
+                count = 0;
+                checkedListPositions.clear();
             }
         });
 

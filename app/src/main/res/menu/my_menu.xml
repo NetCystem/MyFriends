@@ -3,14 +3,14 @@
 
     <item
         android:id="@+id/addContact"
-        android:title="Add"></item>
+        android:title="Add" />
 
     <item
         android:id="@+id/removeContact"
-        android:title="Remove"></item>
+        android:title="Remove" />
 
     <item
         android:id="@+id/selectContact"
-        android:title="Select"></item>
+        android:title="Select" />
 
 </menu>
