@@ -2,10 +2,7 @@ package com.example.macbookair.demo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Observable;
 
 /**
  * Created by macbookair on 12/17/17.

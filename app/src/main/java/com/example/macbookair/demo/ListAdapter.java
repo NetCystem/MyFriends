@@ -97,6 +97,7 @@ public class ListAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+
     public void delete(int position) {
 
         Contacts.getNames().remove(position);

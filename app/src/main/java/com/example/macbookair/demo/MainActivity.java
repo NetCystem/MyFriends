@@ -3,15 +3,14 @@ package com.example.macbookair.demo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.ActionMode;
-import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -19,16 +18,23 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
-    private ListView listView;
-    private ListAdapter listAdapter;
     private static EditText addedContactName;
     private static EditText addedContactPhone;
+    private ListView listView;
+    private ListAdapter listAdapter;
     private Button btnSave;
+    private List<Integer> checkedListPositions = new ArrayList<>();
+    private int count = 0;
 
-    private int itemPosition = -1;
+    public static EditText getAddedContactName() {
+        return addedContactName;
+    }
+
+    public static EditText getAddedContactPhone() {
+        return addedContactPhone;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         addedContactName = findViewById(R.id.addedContactName);
         addedContactPhone = findViewById(R.id.addedContactPhone);
         btnSave = findViewById(R.id.btnSave);
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
 
         btnSave.setVisibility(View.INVISIBLE);
         addedContactPhone.setVisibility(View.INVISIBLE);
@@ -46,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
         final Intent intent = new Intent(MainActivity.this, contacts_information.class);
         listAdapter = new ListAdapter(this);
         listView.setAdapter(listAdapter);
-        
+
+
         listView.setOnItemClickListener((parent, view, position, id) -> {
 
             intent.putExtra("name", Contacts.getNames().get(position));
@@ -57,8 +65,56 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-    }
+        listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+            @Override
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                Animation animation = new AlphaAnimation(0.3f, 1.0f);
+                animation.setDuration(800);
+                listView.startAnimation(animation);
+                count++;
+                checkedListPositions.add(position);
+                Toast.makeText(MainActivity.this, count + " Items Selected", Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+
+                MenuInflater menuInflater = mode.getMenuInflater();
+                menuInflater.inflate(R.menu.my_menu, menu);
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+
+                if (item.getItemId() == R.id.removeContact) {
+                    for (int i : checkedListPositions
+                            ) {
+                        listAdapter.delete(i);
+                    }
+                    Toast.makeText(MainActivity.this, count + " Items Removed", Toast.LENGTH_SHORT).show();
+                    checkedListPositions.clear();
+                    count = 0;
+                    mode.finish();
+                }
+
+                mode.finish();
+
+                return true;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+
+            }
+        });
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -74,31 +130,8 @@ public class MainActivity extends AppCompatActivity {
             btnSave.setVisibility(View.VISIBLE);
 
         }
-
-        if (item.getItemId() == R.id.removeContact) {
-
-            listAdapter.delete(itemPosition);
-        }
-
-        if (item.getItemId() == R.id.selectContact) {
-
-            listView.setOnItemLongClickListener((parent, view, position, id) -> {
-                view.setSelected(true);
-                itemPosition = position;
-                return true;
-            });
-        }
-
         return true;
 
-    }
-
-    public static EditText getAddedContactName() {
-        return addedContactName;
-    }
-
-    public static EditText getAddedContactPhone() {
-        return addedContactPhone;
     }
 
     public void save(View v) {
