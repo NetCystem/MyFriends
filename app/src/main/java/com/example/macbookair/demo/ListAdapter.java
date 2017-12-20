@@ -100,6 +100,13 @@ public class ListAdapter extends BaseAdapter {
 
     public void delete(int position) {
 
+        if (position >= Contacts.getNames().size()) {
+
+            while (position != Contacts.getNames().size() - 1)
+                position--;
+        }
+
+
         Contacts.getNames().remove(position);
         Contacts.getImages().remove(position);
         Contacts.getE_mails().remove(position);

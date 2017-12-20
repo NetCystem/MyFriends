@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-
+                listView.setSelected(true);
                 if (item.getItemId() == R.id.removeContact) {
                     for (int i : checkedListPositions
                             ) {
