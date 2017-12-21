@@ -3,6 +3,7 @@ package com.example.macbookair.demo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -124,12 +125,30 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         if (item.getItemId() == R.id.addContact) {
             addedContactName.setVisibility(View.VISIBLE);
             addedContactPhone.setVisibility(View.VISIBLE);
             btnSave.setVisibility(View.VISIBLE);
 
         }
+
+        if (item.getItemId() == R.id.removeAll) {
+
+            for (int i = 0; i < listAdapter.getCount(); i++) {
+
+                listView.setItemChecked(i, false);
+            }
+
+            SparseBooleanArray sparseBooleanArray = listView.getCheckedItemPositions();
+            for (int i = 0; i < sparseBooleanArray.size(); i++) {
+
+                listAdapter.delete(i);
+            }
+
+            Toast.makeText(MainActivity.this, "All items have been removed", Toast.LENGTH_SHORT).show();
+        }
+
         return true;
 
     }
